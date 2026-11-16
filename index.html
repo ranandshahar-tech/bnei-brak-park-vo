@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>פארק בני ברק צפון · שלוש קריינויות</title>
+<style>
+:root{--bg:#f4f7fc;--card:#fff;--tint:#eef4ff;--line:#dbe3f2;--ink:#0e1836;--body:#25324f;
+--dim:#63719a;--blue:#0642ff;--navy:#080e33;--ok:#0f8a5f;--okbg:#e9f8f1;--okline:#9cddc2;
+--edit:#a0410f;--editbg:#fff6ef;--editline:#f0c9ae}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--body);font:16px/1.75 -apple-system,"Segoe UI",Arial,sans-serif;padding:34px 18px 90px}
+.wrap{max-width:980px;margin:0 auto}
+h1{color:var(--ink);font-size:27px;line-height:1.3}
+.sub{color:var(--dim);margin:6px 0 12px}
+.hint{background:var(--tint);border:1px solid var(--line);border-radius:12px;padding:12px 16px;
+margin:0 0 30px;font-size:14px;color:var(--body)}
+.hint b{color:var(--ink)}
+.ver{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 30px;
+box-shadow:0 1px 3px rgba(14,24,54,.05)}
+.divider{text-align:center;color:var(--dim);font-size:13px;margin:30px 0}
+.vhead{border-bottom:2px solid var(--tint);padding-bottom:16px;margin-bottom:22px}
+.vline{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.vletter{background:var(--navy);color:#fff;font-size:12px;font-weight:700;border-radius:7px;
+padding:4px 11px;white-space:nowrap}
+.vline h2{color:var(--ink);font-size:22px}
+.tone{background:var(--tint);border:1px solid var(--line);color:var(--blue);font-size:12px;
+font-weight:700;border-radius:99px;padding:3px 12px;white-space:nowrap}
+.blurb{margin-top:10px;color:var(--body)}
+.meta{margin-top:6px;color:var(--dim);font-size:13px}
+
+.bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.btn{background:#fff;color:var(--body);border:1px solid var(--line);border-radius:8px;
+padding:6px 13px;font:600 13px inherit;cursor:pointer}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn.on{background:var(--edit);border-color:var(--edit);color:#fff}
+.btn.pri{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.pri:hover{background:#0535cc;color:#fff}
+.bstat{font-size:12px;color:var(--ok);margin-inline-start:2px}
+.bcount{font-size:12px;color:var(--edit);font-weight:700}
+
+.rows{display:grid;grid-template-columns:1fr 240px;column-gap:22px;row-gap:2px;align-items:baseline}
+p.vo{grid-column:1;margin:0 0 13px;font-size:17px;color:var(--ink);border-radius:6px}
+.cuecol{grid-column:2;display:flex;flex-wrap:wrap;gap:5px;align-content:start;
+border-inline-start:2px solid var(--tint);padding-inline-start:14px;min-height:1px;align-self:stretch}
+.cue{display:inline-flex;align-items:baseline;gap:6px;background:var(--tint);border:1px solid #cdd8f5;
+color:var(--blue);font-size:11px;font-weight:700;border-radius:6px;padding:3px 9px;line-height:1.5}
+.cue::before{content:"\25B8";font-size:9px}
+.cue i{font-style:normal;color:var(--dim);font-weight:600}
+.note-b{display:block;color:var(--dim);font-size:11.5px;line-height:1.6}
+.note-b::before{content:"\00B7 "}
+
+.ver.editing p.vo,.ver.editing .cue span.t{background:var(--editbg);outline:1px dashed var(--editline)}
+.ver.editing p.vo{padding:2px 8px;margin-inline-start:-8px}
+[contenteditable]:focus{outline:2px solid var(--edit);background:#fff}
+p.vo.dirty,.cue.dirty{border-inline-start:3px solid var(--edit);padding-inline-start:9px;
+margin-inline-start:-12px;background:var(--editbg)}
+.cue.dirty{border-radius:6px}
+.undo{border:0;background:transparent;color:var(--edit);cursor:pointer;font:700 12px inherit;
+padding:0 4px;visibility:hidden}
+p.vo.dirty .undo,.cue.dirty .undo{visibility:visible}
+
+.cbox{margin-top:26px;border-top:1px dashed var(--line);padding-top:18px}
+.cbox label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.cbox textarea{width:100%;min-height:88px;resize:vertical;border:1px solid var(--line);
+border-radius:10px;background:var(--bg);color:var(--body);padding:11px 13px;font:15px/1.7 inherit}
+.cbox textarea:focus{outline:0;border-color:var(--blue);background:#fff}
+.crow{display:flex;align-items:center;gap:10px;margin-top:9px;flex-wrap:wrap}
+
+@media(max-width:600px){.rows{grid-template-columns:1fr}
+.cuecol{grid-column:1;border:0;padding:0;margin:-7px 0 13px}}
+@media print{body{background:#fff;padding:0}.ver{border:0;box-shadow:none;break-before:page}
+.ver:first-of-type{break-before:auto}.cbox,.bar,.hint{display:none}
+p.vo.dirty,.cue.dirty{border:0;background:transparent;margin:0 0 13px;padding:0}}
+
+html{-webkit-text-size-adjust:100%}
+body{padding-bottom:104px}
+.hint{font-size:15px}
+.hint ol{margin:8px 0 0;padding-inline-start:20px}
+.hint li{margin:3px 0}
+.btn{padding:10px 16px;font-size:14px;min-height:44px}
+.cbox textarea{font-size:16px;min-height:104px}
+.ver.editing p.vo span[data-id]{font-size:17px}
+
+.pick{display:flex;align-items:center;gap:10px;margin:18px 0 0;padding:13px 15px;
+border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;
+min-height:52px;user-select:none}
+.pick input{width:21px;height:21px;accent-color:var(--blue);flex:0 0 auto;margin:0}
+.pick span{font-weight:700;color:var(--ink);font-size:15px}
+.ver.picked{border-color:var(--ok);box-shadow:0 0 0 2px var(--okbg)}
+.ver.picked .pick{background:var(--okbg);border-color:var(--okline)}
+.ver.picked .pick span{color:var(--ok)}
+
+.dock{position:fixed;inset-inline:0;bottom:0;z-index:9;background:rgba(255,255,255,.96);
+backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:11px 16px;
+display:flex;gap:9px;align-items:center;justify-content:center;flex-wrap:wrap}
+.dock .btn{flex:0 1 auto}
+.dock .send{background:#25d366;border:1px solid #1eb457;color:#fff;border-radius:9px;
+padding:11px 20px;font:700 15px inherit;cursor:pointer;min-height:46px}
+.dock .send:hover{background:#1eb457}
+.dockstat{font-size:12.5px;color:var(--dim);flex-basis:100%;text-align:center}
+
+/* מצב צפייה בתיקונים — נפתח מהקישור שבהודעת הוואטסאפ */
+.rvbar{position:sticky;top:0;z-index:8;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;
+background:var(--editbg);border:1px solid var(--editline);border-radius:12px;padding:12px 16px;
+margin:0 0 24px;box-shadow:0 2px 8px rgba(14,24,54,.08)}
+.rvbar b{color:var(--edit);font-size:15px}
+.rvbar span{flex:1 1 260px;font-size:13.5px;color:var(--body)}
+body.review{padding-bottom:40px}
+body.review .hint,body.review .dock,body.review .b-edit,body.review .b-reset,body.review .undo{display:none}
+body.review .pick{cursor:default}
+p.vo .was{display:block;font-size:13px;line-height:1.6;color:var(--dim);margin-top:3px}
+@media(max-width:600px){
+  body{padding:22px 13px 116px}
+  h1{font-size:22px}
+  .ver{padding:20px 17px;border-radius:14px}
+  .vline h2{font-size:19px}
+  p.vo{font-size:17px}
+  .bar{gap:6px}
+  .bar .btn{flex:1 1 auto;text-align:center}
+  .dock{padding:10px 12px}
+  .dock .send{flex:1 1 100%}
+  .rvbar{position:static;padding:11px 13px}
+}
+@media print{.dock,.pick{display:none}}
+</style></head><body data-doc="bnei-brak-park-vo" data-name="פארק בני ברק צפון" data-sync="https://script.google.com/macros/s/AKfycbxvZuo5jiirPZ6llDKOKRylahnXJO9X0NC_qeCn96KYSBF18wXaJezHKpmTB9LMa2Sv7Q/exec"><div class="wrap">
+<h1>פארק בני ברק צפון · שלוש קריינויות</h1>
+<p class="sub">כשתי דקות · הכותרות הגרפיות מופיעות משמאל, בשורה שבה הן קופצות</p>
+<div class="hint"><b>אפשר לערוך הכול כאן בדף.</b><ol><li>קוראים את הגרסאות — הקריינות מימין, הכותרות שיופיעו על המסך משמאל.</li><li>"✎ ערכי את הטקסט" פותח את השורות לכתיבה. כל שינוי נשמר מיד ומסומן בכתום.</li><li>אפשר להשאיר הערות חופשיות בסוף כל גרסה, ולסמן את הגרסה המועדפת.</li><li>כל שינוי והערה נשמרים ומגיעים אלינו אוטומטית. בסיום אפשר גם ללחוץ "שליחה בוואטסאפ" למטה.</li></ol></div>
+<section class="ver" data-key="vo-א׳-dd22544120">
+<header class="vhead"><div class="vline"><span class="vletter">גרסה א׳</span><h2>"נקודת ציון"</h2><span class="tone">חזוני ומקצועי · מסע דרך הפארק</span></div><p class="blurb">פותחים במקום שהופך לחלק מהזהות של העיר, ורק אז נחשף הפארק החדש בצפון בני ברק. משם עוברים על המתחמים, על העומסים, על ההפרדה ועל הנגישות, ומסיימים בפארק כנקודת ציון לכל האזור.</p><p class="meta">‎~238 מילים · ‎~1:48 בקצב קריינות · 17 כותרות</p></header>
+<div class="bar"><button class="btn b-edit" type="button">✎ ערכי את הטקסט</button><button class="btn b-reset" type="button">↩ שחזרי למקור</button><span class="bcount"></span><span class="bstat"></span></div>
+<div class="rows">
+<p class="vo"><span data-id="L1" data-orig="יש מקומות שהופכים עם השנים לחלק מהזהות של העיר.">יש מקומות שהופכים עם השנים לחלק מהזהות של העיר.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="note-b">בוקר בצפון בני ברק</span><span class="note-b">משפחות בלבוש צנוע בדרך אל הפארק</span><span class="note-b">ילדים רצים קדימה</span><span class="note-b">עוד בלי לחשוף את הפארק כולו</span></div>
+<p class="vo"><span data-id="L2" data-orig="מקום שמגיעים אליו מכל הסביבה, שמשפחות חוזרות אליו שוב ושוב, ושילדים זוכרים גם כשהם גדלים.">מקום שמגיעים אליו מכל הסביבה, שמשפחות חוזרות אליו שוב ושוב, ושילדים זוכרים גם כשהם גדלים.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"></div>
+<p class="vo"><span data-id="L3" data-orig="בצפון בני ברק נפרש עכשיו מרחב כזה: פארק ירוק עצום, ובו עולמות משחק שכל אחד מהם הוא חוויה בפני עצמה.">בצפון בני ברק נפרש עכשיו מרחב כזה: פארק ירוק עצום, ובו עולמות משחק שכל אחד מהם הוא חוויה בפני עצמה.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t1" data-orig="בני ברק צפון · כ־320 דונם">בני ברק צפון · כ־320 דונם</span><i dir="ltr">≈0:12</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L4" data-orig="בליבו עומד אריה ענק, ובתוכו מסלולי טיפוס וגשרים אוויריים.">בליבו עומד אריה ענק, ובתוכו מסלולי טיפוס וגשרים אוויריים.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t2" data-orig="מתחם האריה · מגדל אריה ענק">מתחם האריה · מגדל אריה ענק</span><i dir="ltr">≈0:21</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L5" data-orig="סביבו מתנשאים מגדלים המחוברים בגשר קשת סגור, מגדל קוביות, כדורים פורחים ומגדל שקוף.">סביבו מתנשאים מגדלים המחוברים בגשר קשת סגור, מגדל קוביות, כדורים פורחים ומגדל שקוף.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t3" data-orig="מגדלים בגובה 9 מ׳ · גשר קשת סגור">מגדלים בגובה 9 מ׳ · גשר קשת סגור</span><i dir="ltr">≈0:27</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t4" data-orig="מגדל הקוביות · 9.5 מ׳">מגדל הקוביות · 9.5 מ׳</span><i dir="ltr">≈0:29</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t5" data-orig="כדורים פורחים · כ־10 מ׳">כדורים פורחים · כ־10 מ׳</span><i dir="ltr">≈0:30</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t6" data-orig="מגדל אינפיניטי שקוף · 7 מ׳">מגדל אינפיניטי שקוף · 7 מ׳</span><i dir="ltr">≈0:31</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L6" data-orig="כאן המשחק מתחיל בעשרות ילדים בבת אחת.">כאן המשחק מתחיל בעשרות ילדים בבת אחת.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t7" data-orig="הטירה · 8.5 מ׳">הטירה · 8.5 מ׳</span><i dir="ltr">≈0:32</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L7" data-orig="לכן כל מתקן נבנה לגובה, עם הרבה דרכים לעלות ולרדת — מדרגות רחבות, סולמות, רשתות ומגלשות — כך שהתנועה זורמת, בלי תורים, גם בשעות העמוסות ביותר.">לכן כל מתקן נבנה לגובה, עם הרבה דרכים לעלות ולרדת — מדרגות רחבות, סולמות, רשתות ומגלשות — כך שהתנועה זורמת, בלי תורים, גם בשעות העמוסות ביותר.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t8" data-orig="קיבולת גבוהה · נתיבי תנועה מרובים">קיבולת גבוהה · נתיבי תנועה מרובים</span><i dir="ltr">≈0:44</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L8" data-orig="גשרים סגורים ומעברים מקורים שומרים על פרטיות בכל מפלס, ולצד המרחבים המשותפים יש מתחמים מוצנעים, שמאפשרים לכל משפחה ליהנות בדרך שלה.">גשרים סגורים ומעברים מקורים שומרים על פרטיות בכל מפלס, ולצד המרחבים המשותפים יש מתחמים מוצנעים, שמאפשרים לכל משפחה ליהנות בדרך שלה.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t9" data-orig="פרטיות בכל מפלס · מתחמים מוצנעים">פרטיות בכל מפלס · מתחמים מוצנעים</span><i dir="ltr">≈0:48</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L9" data-orig="ורמפות נגישות מביאות גם מי שמגיע בכיסא גלגלים אל לב ההתרחשות.">ורמפות נגישות מביאות גם מי שמגיע בכיסא גלגלים אל לב ההתרחשות.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t10" data-orig="רמפות נגישות">רמפות נגישות</span><i dir="ltr">≈0:58</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L10" data-orig="על בסיס המחקר של KOMPAN בהתפתחות ילדים, כל מתחם הותאם לגיל — כך שהאתגר עולה בהדרגה, ועם כל הצלחה קטנה גדל גם הביטחון.">על בסיס המחקר של KOMPAN בהתפתחות ילדים, כל מתחם הותאם לגיל — כך שהאתגר עולה בהדרגה, ועם כל הצלחה קטנה גדל גם הביטחון.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t11" data-orig="אתגר מדורג לפי גיל">אתגר מדורג לפי גיל</span><i dir="ltr">≈1:09</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L11" data-orig="ולבני הנוער ולמבוגרים מחכה חדר כושר של ממש במרחב הציבורי.">ולבני הנוער ולמבוגרים מחכה חדר כושר של ממש במרחב הציבורי.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t12" data-orig="2 מתחמי כושר · אפליקציית אימון">2 מתחמי כושר · אפליקציית אימון</span><i dir="ltr">≈1:14</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L12" data-orig="כל זה נבנה לשימוש אינטנסיבי, יום אחרי יום.">כל זה נבנה לשימוש אינטנסיבי, יום אחרי יום.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"></div>
+<p class="vo"><span data-id="L13" data-orig="המגדלים, הגשרים והמעברים מתוכננים לשאת קבוצות גדולות של ילדים, והחומרים עמידים לשחיקה, לשמש ולונדליזם.">המגדלים, הגשרים והמעברים מתוכננים לשאת קבוצות גדולות של ילדים, והחומרים עמידים לשחיקה, לשמש ולונדליזם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t13" data-orig="פתרונות אנטי־ונדליזם · פרטים מוגני פטנט">פתרונות אנטי־ונדליזם · פרטים מוגני פטנט</span><i dir="ltr">≈1:28</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L14" data-orig="מאחורי הפארק עומדים נ.ע. לבה ו־KOMPAN — יותר משני עשורים לצד רשויות בישראל, יחד עם המחקר והעיצוב המובילים בעולם.">מאחורי הפארק עומדים נ.ע. לבה ו־KOMPAN — יותר משני עשורים לצד רשויות בישראל, יחד עם המחקר והעיצוב המובילים בעולם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t14" data-orig="נ.ע. לבה · מעל 1,000 גנים ומרחבים ציבוריים · עשרות רשויות">נ.ע. לבה · מעל 1,000 גנים ומרחבים ציבוריים · עשרות רשויות</span><i dir="ltr">≈1:30</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t15" data-orig="KOMPAN · יותר מ־50 שנה · מעל 90 מדינות · ייצוג בלעדי בישראל">KOMPAN · יותר מ־50 שנה · מעל 90 מדינות · ייצוג בלעדי בישראל</span><i dir="ltr">≈1:36</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L15" data-orig="ובשבילנו, מסירת הפרויקט היא תחילתה של מערכת יחסים ארוכת טווח.">ובשבילנו, מסירת הפרויקט היא תחילתה של מערכת יחסים ארוכת טווח.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t16" data-orig="אחריות עד 15 שנה · שירות וחלפים בישראל">אחריות עד 15 שנה · שירות וחלפים בישראל</span><i dir="ltr">≈1:39</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L16" data-orig="בני ברק תמיד השפיעה הרבה מעבר לגבולותיה, והמקום הזה ימשיך את הדרך: נקודת ציון לכל האזור, לדורות.">בני ברק תמיד השפיעה הרבה מעבר לגבולותיה, והמקום הזה ימשיך את הדרך: נקודת ציון לכל האזור, לדורות.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"></div>
+<p class="vo"><span data-id="L17" data-orig="ואנחנו גאים להקים אותו יחד איתכם.">ואנחנו גאים להקים אותו יחד איתכם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t17" data-orig="נ.ע. לבה | KOMPAN">נ.ע. לבה | KOMPAN</span><i dir="ltr">≈1:55</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+</div>
+<div class="cbox"><label>הערות לגרסה א׳</label><textarea placeholder="מה לשנות? כתבי כאן — נשמר אוטומטית, גם אם תסגרי את הדף."></textarea></div>
+<label class="pick"><input type="checkbox"><span>זו הגרסה שאני מעדיפה</span></label>
+</section>
+<div class="divider">◆</div>
+<section class="ver" data-key="vo-ב׳-fd6ccd0f54">
+<header class="vhead"><div class="vline"><span class="vletter">גרסה ב׳</span><h2>"לב ירוק לעיר"</h2><span class="tone">חם ומקצועי · הדגש על עומסים ועמידות</span></div><p class="blurb">פותחים במרחב הפתוח שמחבר בין כולם. הלב של הגרסה הוא שעת השיא: מאות ילדים בבת אחת, מתקנים חזקים שנושאים אותם, הפרדה ונגישות. בסוף, האחריות של נ.ע. לבה ו־KOMPAN מהתכנון ועד השירות.</p><p class="meta">‎~237 מילים · ‎~1:48 בקצב קריינות · 16 כותרות</p></header>
+<div class="bar"><button class="btn b-edit" type="button">✎ ערכי את הטקסט</button><button class="btn b-reset" type="button">↩ שחזרי למקור</button><span class="bcount"></span><span class="bstat"></span></div>
+<div class="rows">
+<p class="vo"><span data-id="L1" data-orig="בלב כל עיר טובה יש מרחב פתוח שמחבר בין כולם.">בלב כל עיר טובה יש מרחב פתוח שמחבר בין כולם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="note-b">שכונה בצפון בני ברק אחרי הלימודים</span><span class="note-b">ילדים יוצאים מהבתים</span><span class="note-b">משפחות בלבוש צנוע בשבילים הירוקים</span></div>
+<p class="vo"><span data-id="L2" data-orig="פינה ירוקה וקרובה לבית, שבה ילדים משחקים, משפחות נחות, והשכונה כולה מתמלאת חיים.">פינה ירוקה וקרובה לבית, שבה ילדים משחקים, משפחות נחות, והשכונה כולה מתמלאת חיים.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"></div>
+<p class="vo"><span data-id="L3" data-orig="בצפון בני ברק נבנה עכשיו מקום כזה: פארק רחב ידיים, ובו עולמות משחק לכל גיל.">בצפון בני ברק נבנה עכשיו מקום כזה: פארק רחב ידיים, ובו עולמות משחק לכל גיל.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t1" data-orig="בני ברק צפון · כ־320 דונם">בני ברק צפון · כ־320 דונם</span><i dir="ltr">≈0:11</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L4" data-orig="מהיום הראשון, הוא נועד לקלוט מאות ילדים בו־זמנית.">מהיום הראשון, הוא נועד לקלוט מאות ילדים בו־זמנית.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t2" data-orig="קיבולת גבוהה · מאות ילדים בו־זמנית">קיבולת גבוהה · מאות ילדים בו־זמנית</span><i dir="ltr">≈0:19</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L5" data-orig="באריה הענק, במגדל הקוביות, בכדורים הפורחים ובמגדלים המחוברים בגשר קשת, יש בכל מפלס כמה דרכים לעלות ולרדת — מדרגות רחבות, סולמות, רשתות ומגלשות.">באריה הענק, במגדל הקוביות, בכדורים הפורחים ובמגדלים המחוברים בגשר קשת, יש בכל מפלס כמה דרכים לעלות ולרדת — מדרגות רחבות, סולמות, רשתות ומגלשות.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t3" data-orig="מתחם האריה · מגדל אריה ענק">מתחם האריה · מגדל אריה ענק</span><i dir="ltr">≈0:23</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t4" data-orig="מגדל הקוביות · 9.5 מ׳">מגדל הקוביות · 9.5 מ׳</span><i dir="ltr">≈0:24</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t5" data-orig="כדורים פורחים · כ־10 מ׳">כדורים פורחים · כ־10 מ׳</span><i dir="ltr">≈0:25</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t6" data-orig="מגדלים בגובה 9 מ׳ · גשר קשת סגור">מגדלים בגובה 9 מ׳ · גשר קשת סגור</span><i dir="ltr">≈0:25</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L6" data-orig="כך התנועה זורמת, בלי צווארי בקבוק, וכל ילד מוצא את הנתיב שלו — גם כשכולם מגיעים יחד אחרי הלימודים.">כך התנועה זורמת, בלי צווארי בקבוק, וכל ילד מוצא את הנתיב שלו — גם כשכולם מגיעים יחד אחרי הלימודים.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t7" data-orig="נתיבי תנועה מרובים">נתיבי תנועה מרובים</span><i dir="ltr">≈0:34</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L7" data-orig="ומתקנים שמיועדים לעומס כזה, חייבים להיות חזקים במיוחד.">ומתקנים שמיועדים לעומס כזה, חייבים להיות חזקים במיוחד.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"></div>
+<p class="vo"><span data-id="L8" data-orig="המגדלים והמעברים מתוכננים לשאת קבוצות גדולות של ילדים, יום אחרי יום, והחומרים עמידים לשחיקה, לשמש ולונדליזם.">המגדלים והמעברים מתוכננים לשאת קבוצות גדולות של ילדים, יום אחרי יום, והחומרים עמידים לשחיקה, לשמש ולונדליזם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t8" data-orig="פתרונות אנטי־ונדליזם · פרטים מוגני פטנט">פתרונות אנטי־ונדליזם · פרטים מוגני פטנט</span><i dir="ltr">≈0:52</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L9" data-orig="לצד המרחבים המשותפים, הפארק משלב מתחמים מוצנעים, שמאפשרים הפרדה כשצריך ונותנים לכל משפחה פינה משלה, וגשרים סגורים ומעברים מקורים ששומרים על פרטיות גם בגובה.">לצד המרחבים המשותפים, הפארק משלב מתחמים מוצנעים, שמאפשרים הפרדה כשצריך ונותנים לכל משפחה פינה משלה, וגשרים סגורים ומעברים מקורים ששומרים על פרטיות גם בגובה.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t9" data-orig="פרטיות בכל מפלס · מתחמים מוצנעים">פרטיות בכל מפלס · מתחמים מוצנעים</span><i dir="ltr">≈0:55</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L10" data-orig="ורמפות רחבות מביאות גם מי שמגיע בכיסא גלגלים אל לב ההתרחשות, כך שאף אחד לא נשאר מחוץ למשחק.">ורמפות רחבות מביאות גם מי שמגיע בכיסא גלגלים אל לב ההתרחשות, כך שאף אחד לא נשאר מחוץ למשחק.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t10" data-orig="רמפות נגישות">רמפות נגישות</span><i dir="ltr">≈1:06</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L11" data-orig="על בסיס המחקר של KOMPAN בהתפתחות ילדים, כל מתחם הותאם לגיל — כך שהאתגר עולה בהדרגה ובונה ביטחון.">על בסיס המחקר של KOMPAN בהתפתחות ילדים, כל מתחם הותאם לגיל — כך שהאתגר עולה בהדרגה ובונה ביטחון.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t11" data-orig="אתגר מדורג לפי גיל">אתגר מדורג לפי גיל</span><i dir="ltr">≈1:20</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L12" data-orig="ולבני הנוער ולמבוגרים מחכה חדר כושר של ממש במרחב הציבורי.">ולבני הנוער ולמבוגרים מחכה חדר כושר של ממש במרחב הציבורי.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t12" data-orig="2 מתחמי כושר · אפליקציית אימון">2 מתחמי כושר · אפליקציית אימון</span><i dir="ltr">≈1:23</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L13" data-orig="נ.ע. לבה ו־KOMPAN מביאים לפרויקט יותר משני עשורים לצד רשויות בישראל, ואת המחקר והחדשנות המובילים בעולם, באחריות אחת: מהתכנון וההנדסה, דרך הביסוס וההקמה, ועד שירות וחלפים לאורך שנים.">נ.ע. לבה ו־KOMPAN מביאים לפרויקט יותר משני עשורים לצד רשויות בישראל, ואת המחקר והחדשנות המובילים בעולם, באחריות אחת: מהתכנון וההנדסה, דרך הביסוס וההקמה, ועד שירות וחלפים לאורך שנים.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t13" data-orig="נ.ע. לבה · מעל 1,000 גנים ומרחבים ציבוריים · עשרות רשויות">נ.ע. לבה · מעל 1,000 גנים ומרחבים ציבוריים · עשרות רשויות</span><i dir="ltr">≈1:28</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t14" data-orig="KOMPAN · יותר מ־50 שנה · מעל 90 מדינות · ייצוג בלעדי בישראל">KOMPAN · יותר מ־50 שנה · מעל 90 מדינות · ייצוג בלעדי בישראל</span><i dir="ltr">≈1:33</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t15" data-orig="אחריות עד 15 שנה · שירות וחלפים בישראל">אחריות עד 15 שנה · שירות וחלפים בישראל</span><i dir="ltr">≈1:36</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L14" data-orig="ובשבילנו, מסירת הפרויקט היא תחילתה של מערכת יחסים ארוכת טווח.">ובשבילנו, מסירת הפרויקט היא תחילתה של מערכת יחסים ארוכת טווח.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"></div>
+<p class="vo"><span data-id="L15" data-orig="פארק שמחבר בין כולם, ומעניק לצפון בני ברק לב ירוק חדש.">פארק שמחבר בין כולם, ומעניק לצפון בני ברק לב ירוק חדש.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"></div>
+<p class="vo"><span data-id="L16" data-orig="ואנחנו גאים להקים אותו יחד איתכם.">ואנחנו גאים להקים אותו יחד איתכם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t16" data-orig="נ.ע. לבה | KOMPAN">נ.ע. לבה | KOMPAN</span><i dir="ltr">≈1:54</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+</div>
+<div class="cbox"><label>הערות לגרסה ב׳</label><textarea placeholder="מה לשנות? כתבי כאן — נשמר אוטומטית, גם אם תסגרי את הדף."></textarea></div>
+<label class="pick"><input type="checkbox"><span>זו הגרסה שאני מעדיפה</span></label>
+</section>
+<div class="divider">◆</div>
+<section class="ver" data-key="vo-ג׳-e7435e6da1">
+<header class="vhead"><div class="vline"><span class="vletter">גרסה ג׳</span><h2>"הרגעים הקטנים"</h2><span class="tone">חם וחווייתי · טיול בפארק לפי גילאים</span></div><p class="blurb">פותחים ברגעים הקטנים שעושים מרחב ציבורי טוב. משם עוברים במתחמים לפי גילאים, מהפעוטות ועד האריה, וממשיכים לעומסים, לחוזק, להפרדה ולנגישות.</p><p class="meta">‎~236 מילים · ‎~1:47 בקצב קריינות · 18 כותרות</p></header>
+<div class="bar"><button class="btn b-edit" type="button">✎ ערכי את הטקסט</button><button class="btn b-reset" type="button">↩ שחזרי למקור</button><span class="bcount"></span><span class="bstat"></span></div>
+<div class="rows">
+<p class="vo"><span data-id="L1" data-orig="מרחב ציבורי טוב נמדד ברגעים הקטנים: בילד שמגיע לראשונה לראש המגדל, בחבר חדש על הגשר, בצחוק שמתגלגל במגלשה, ובמשפחה שבוחרת לחזור גם מחר.">מרחב ציבורי טוב נמדד ברגעים הקטנים: בילד שמגיע לראשונה לראש המגדל, בחבר חדש על הגשר, בצחוק שמתגלגל במגלשה, ובמשפחה שבוחרת לחזור גם מחר.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="note-b">ילד מגיע לראש מגדל</span><span class="note-b">שני חברים על גשר</span><span class="note-b">צחוק במגלשה</span><span class="note-b">משפחה בלבוש צנוע יוצאת מהפארק ומביטה לאחור</span></div>
+<p class="vo"><span data-id="L2" data-orig="בצפון בני ברק נבנה עכשיו פארק כזה: שטח ירוק ורחב ידיים, ובו מתחמי משחק לכל גיל, שכל אחד מהם הוא חוויה בפני עצמה.">בצפון בני ברק נבנה עכשיו פארק כזה: שטח ירוק ורחב ידיים, ובו מתחמי משחק לכל גיל, שכל אחד מהם הוא חוויה בפני עצמה.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t1" data-orig="בני ברק צפון · כ־320 דונם">בני ברק צפון · כ־320 דונם</span><i dir="ltr">≈0:11</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L3" data-orig="הקטנטנים מתחילים בעיר קטנה משלהם ובתחנת רכבת שכולה בגובה שלהם.">הקטנטנים מתחילים בעיר קטנה משלהם ובתחנת רכבת שכולה בגובה שלהם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t2" data-orig="העיר הקטנה · מתחם פעוטות נגיש">העיר הקטנה · מתחם פעוטות נגיש</span><i dir="ltr">≈0:23</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t3" data-orig="תחנת הרכבת · משחק בלי טיפוס אנכי">תחנת הרכבת · משחק בלי טיפוס אנכי</span><i dir="ltr">≈0:24</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L4" data-orig="הגדולים יותר מטפסים במגדל הקוביות, בכדורים הפורחים, בטירה ובמגדלים המחוברים בגשר קשת סגור.">הגדולים יותר מטפסים במגדל הקוביות, בכדורים הפורחים, בטירה ובמגדלים המחוברים בגשר קשת סגור.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t4" data-orig="מגדל הקוביות · 9.5 מ׳">מגדל הקוביות · 9.5 מ׳</span><i dir="ltr">≈0:28</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t5" data-orig="כדורים פורחים · כ־10 מ׳">כדורים פורחים · כ־10 מ׳</span><i dir="ltr">≈0:29</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t6" data-orig="הטירה · 8.5 מ׳">הטירה · 8.5 מ׳</span><i dir="ltr">≈0:30</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t7" data-orig="מגדלים בגובה 9 מ׳ · גשר קשת סגור">מגדלים בגובה 9 מ׳ · גשר קשת סגור</span><i dir="ltr">≈0:30</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L5" data-orig="ובלב הפארק עומד אריה ענק, ובתוכו מסלולי טיפוס, רשתות ומגלשות.">ובלב הפארק עומד אריה ענק, ובתוכו מסלולי טיפוס, רשתות ומגלשות.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t8" data-orig="מתחם האריה · מגדל אריה ענק">מתחם האריה · מגדל אריה ענק</span><i dir="ltr">≈0:33</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L6" data-orig="וכשכולם מגיעים יחד, אחרי הלימודים, הכול מוכן לקלוט אותם.">וכשכולם מגיעים יחד, אחרי הלימודים, הכול מוכן לקלוט אותם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"></div>
+<p class="vo"><span data-id="L7" data-orig="בכל מתקן יש כמה דרכים לעלות ולרדת, כך שמאות ילדים משחקים בו־זמנית, בלי תורים, בתנועה זורמת ובטוחה.">בכל מתקן יש כמה דרכים לעלות ולרדת, כך שמאות ילדים משחקים בו־זמנית, בלי תורים, בתנועה זורמת ובטוחה.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t9" data-orig="קיבולת גבוהה · נתיבי תנועה מרובים">קיבולת גבוהה · נתיבי תנועה מרובים</span><i dir="ltr">≈0:46</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L8" data-orig="והמבנים חזקים בהתאם: המגדלים והרשתות מתוכננים לשאת קבוצות גדולות בבת אחת, יום אחרי יום, והחומרים עמידים לשחיקה, לשמש ולונדליזם.">והמבנים חזקים בהתאם: המגדלים והרשתות מתוכננים לשאת קבוצות גדולות בבת אחת, יום אחרי יום, והחומרים עמידים לשחיקה, לשמש ולונדליזם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t10" data-orig="פתרונות אנטי־ונדליזם · פרטים מוגני פטנט">פתרונות אנטי־ונדליזם · פרטים מוגני פטנט</span><i dir="ltr">≈0:57</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L9" data-orig="גשרים סגורים ומעברים מקורים שומרים על פרטיות בכל מפלס, ולצד המרחבים המשותפים יש פינות מוצנעות, שמאפשרות לכל משפחה ליהנות בדרך שלה.">גשרים סגורים ומעברים מקורים שומרים על פרטיות בכל מפלס, ולצד המרחבים המשותפים יש פינות מוצנעות, שמאפשרות לכל משפחה ליהנות בדרך שלה.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t11" data-orig="פרטיות בכל מפלס · מתחמים מוצנעים">פרטיות בכל מפלס · מתחמים מוצנעים</span><i dir="ltr">≈0:60</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L10" data-orig="ורמפות נגישות, ומתקני עץ שמותאמים לכיסאות גלגלים, מביאים את כולם אל לב המשחק.">ורמפות נגישות, ומתקני עץ שמותאמים לכיסאות גלגלים, מביאים את כולם אל לב המשחק.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t12" data-orig="רמפות נגישות">רמפות נגישות</span><i dir="ltr">≈1:10</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L11" data-orig="על בסיס המחקר של KOMPAN בהתפתחות ילדים, כל מתחם הותאם לגיל — כך שהאתגר עולה בהדרגה, ועם כל הצלחה קטנה גדל גם הביטחון.">על בסיס המחקר של KOMPAN בהתפתחות ילדים, כל מתחם הותאם לגיל — כך שהאתגר עולה בהדרגה, ועם כל הצלחה קטנה גדל גם הביטחון.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t13" data-orig="אתגר מדורג לפי גיל">אתגר מדורג לפי גיל</span><i dir="ltr">≈1:22</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L12" data-orig="ולבני הנוער ולמבוגרים מחכה חדר כושר של ממש במרחב הציבורי.">ולבני הנוער ולמבוגרים מחכה חדר כושר של ממש במרחב הציבורי.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t14" data-orig="2 מתחמי כושר · אפליקציית אימון">2 מתחמי כושר · אפליקציית אימון</span><i dir="ltr">≈1:27</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L13" data-orig="מאחורי הפארק עומדים נ.ע. לבה ו־KOMPAN — יותר משני עשורים לצד רשויות בישראל, יחד עם המחקר והעיצוב המובילים בעולם.">מאחורי הפארק עומדים נ.ע. לבה ו־KOMPAN — יותר משני עשורים לצד רשויות בישראל, יחד עם המחקר והעיצוב המובילים בעולם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t15" data-orig="נ.ע. לבה · מעל 1,000 גנים ומרחבים ציבוריים · עשרות רשויות">נ.ע. לבה · מעל 1,000 גנים ומרחבים ציבוריים · עשרות רשויות</span><i dir="ltr">≈1:32</i><button class="undo" type="button" title="שחזר">↩</button></span><span class="cue"><span class="t" data-id="t16" data-orig="KOMPAN · יותר מ־50 שנה · מעל 90 מדינות · ייצוג בלעדי בישראל">KOMPAN · יותר מ־50 שנה · מעל 90 מדינות · ייצוג בלעדי בישראל</span><i dir="ltr">≈1:38</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L14" data-orig="ובשבילנו, מסירת הפרויקט היא תחילתה של מערכת יחסים ארוכת טווח.">ובשבילנו, מסירת הפרויקט היא תחילתה של מערכת יחסים ארוכת טווח.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t17" data-orig="אחריות עד 15 שנה · שירות וחלפים בישראל">אחריות עד 15 שנה · שירות וחלפים בישראל</span><i dir="ltr">≈1:41</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+<p class="vo"><span data-id="L15" data-orig="פארק שמייצר רגעים כאלה בכל יום, בלב צפון בני ברק.">פארק שמייצר רגעים כאלה בכל יום, בלב צפון בני ברק.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"></div>
+<p class="vo"><span data-id="L16" data-orig="ואנחנו גאים להקים אותו יחד איתכם.">ואנחנו גאים להקים אותו יחד איתכם.</span><button class="undo" type="button" title="שחזר">↩</button></p><div class="cuecol"><span class="cue"><span class="t" data-id="t18" data-orig="נ.ע. לבה | KOMPAN">נ.ע. לבה | KOMPAN</span><i dir="ltr">≈1:54</i><button class="undo" type="button" title="שחזר">↩</button></span></div>
+</div>
+<div class="cbox"><label>הערות לגרסה ג׳</label><textarea placeholder="מה לשנות? כתבי כאן — נשמר אוטומטית, גם אם תסגרי את הדף."></textarea></div>
+<label class="pick"><input type="checkbox"><span>זו הגרסה שאני מעדיפה</span></label>
+</section>
+</div>
+<div class="dock"><button class="send" type="button">שליחה בוואטסאפ</button><button class="btn copy" type="button">העתקה</button><span class="dockstat"></span></div>
+<script>
+(function () {
+  var LS = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    del: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+  function txt(el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); }
+
+  document.querySelectorAll('.ver').forEach(function (ver) {
+    var key    = ver.dataset.key;
+    var cells  = Array.prototype.slice.call(ver.querySelectorAll('[data-id]'));
+    var flash  = ver.querySelector('.bstat');
+    var count  = ver.querySelector('.bcount');
+    var ta     = ver.querySelector('textarea');
+    var timer;
+
+    function say(msg) {
+      flash.textContent = msg;
+      clearTimeout(timer);
+      timer = setTimeout(function () { flash.textContent = ''; }, 2200);
+    }
+    function slot(el) { return 'nvoe:' + key + ':' + el.dataset.id; }
+    /* התא הוא span פנימי; המעטפת (p.vo / .cue) היא זו שנצבעת */
+    function host(el) { return el.parentNode; }
+
+    function paint() {
+      var n = 0;
+      cells.forEach(function (el) {
+        var changed = txt(el) !== el.dataset.orig;
+        host(el).classList.toggle('dirty', changed);
+        if (changed) n++;
+      });
+      count.textContent = n > 1 ? ('✎ ' + n + ' שינויים') : n ? '✎ שינוי אחד' : '';
+      return n;
+    }
+
+    /* שחזור עריכות קודמות */
+    cells.forEach(function (el) {
+      var saved = LS.get(slot(el));
+      if (saved !== null && saved !== el.dataset.orig) el.textContent = saved;
+    });
+    paint();
+
+    /* הערות */
+    if (ta) {
+      ta.value = LS.get('nvo:' + key) || '';
+      ta.addEventListener('input', function () {
+        LS.set('nvo:' + key, ta.value);
+        say('נשמר');
+      });
+    }
+
+    /* מצב עריכה */
+    var editBtn = ver.querySelector('.b-edit');
+    editBtn.addEventListener('click', function () {
+      var on = !ver.classList.contains('editing');
+      ver.classList.toggle('editing', on);
+      editBtn.classList.toggle('on', on);
+      editBtn.textContent = on ? '✓ סיים עריכה' : '✎ ערוך את הקריינות';
+      cells.forEach(function (el) {
+        if (on) { el.setAttribute('contenteditable', 'true'); }
+        else { el.removeAttribute('contenteditable'); }
+      });
+      if (on) { cells[0].focus(); say('אפשר לכתוב ישר בתוך השורות'); }
+    });
+
+    /* שמירה בכל הקלדה + Enter לא שובר שורה */
+    cells.forEach(function (el) {
+      el.addEventListener('input', function () {
+        var now = txt(el);
+        if (now === el.dataset.orig) LS.del(slot(el)); else LS.set(slot(el), now);
+        paint(); say('נשמר');
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+      });
+      el.addEventListener('paste', function (e) {
+        e.preventDefault();
+        var t = (e.clipboardData || window.clipboardData).getData('text');
+        document.execCommand('insertText', false, t.replace(/\s+/g, ' '));
+      });
+    });
+
+    /* ביטול שורה בודדת */
+    ver.querySelectorAll('.undo').forEach(function (u) {
+      u.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var el = u.parentNode.querySelector('[data-id]');
+        el.textContent = el.dataset.orig;
+        LS.del(slot(el));
+        paint(); say('השורה שוחזרה');
+      });
+    });
+
+    /* ביטול הכל */
+    ver.querySelector('.b-reset').addEventListener('click', function () {
+      if (!paint()) { say('אין שינויים'); return; }
+      if (!confirm('לשחזר את כל הקריינות למקור? העריכות שלך יימחקו.')) return;
+      cells.forEach(function (el) { el.textContent = el.dataset.orig; LS.del(slot(el)); });
+      paint(); say('הכל שוחזר');
+    });
+
+    /* העתקה לשליחה — הטקסט הערוך + מה השתנה + ההערות.
+       ‼️ בעמוד הלקוח הכפתור הזה לא קיים (השליחה בפס התחתון). בלי הבדיקה
+       הזאת addEventListener על null מפיל את כל בלוק ה-script, כולל
+       CLIENT_JS שאחריו — וכל הדף מת בשקט. (נתפס בבדיקה, 24.8.2026) */
+    var copyBtn = ver.querySelector('.b-copy');
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var NL = String.fromCharCode(10);
+      var name = ver.querySelector('.vletter').textContent.trim() + ' ' +
+                 ver.querySelector('h2').textContent.trim();
+      var out = ['=== ' + name + ' ==='];
+      var edits = [];
+      cells.forEach(function (el) {
+        var now = txt(el), was = el.dataset.orig;
+        var kind = el.classList.contains('t') ? 'כותרת' : 'שורה';
+        if (now !== was) {
+          out.push('✎ ' + now);
+          edits.push('  [' + kind + ' ' + el.dataset.id + ']' + NL +
+                     '   היה: ' + was + NL + '   עכשיו: ' + now);
+        } else if (!el.classList.contains('t')) {
+          out.push(now);
+        }
+      });
+      out.push('');
+      out.push(edits.length ? ('--- שינויים שערכתי (' + edits.length + ') ---' + NL + edits.join(NL))
+                            : '--- לא ערכתי כלום ---');
+      var note = ta && ta.value.trim();
+      out.push('');
+      out.push(note ? ('--- הערות ---' + NL + note) : '--- אין הערות ---');
+      navigator.clipboard.writeText(out.join(NL)).then(function () {
+        say('הועתק — הדבק לי בצ״אט');
+      });
+    });
+  });
+})();
+
+(function () {
+  var NL = String.fromCharCode(10);
+  function LSget(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function LSset(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function tx(el){return (el.textContent||'').replace(/\s+/g,' ').trim();}
+
+  var vers = Array.prototype.slice.call(document.querySelectorAll('.ver'));
+  var PK = 'nvopick:' + (document.body.dataset.doc || 'doc');
+
+  /* בחירת גרסה מועדפת — אחת בלבד */
+  function paintPick(v) {
+    vers.forEach(function (s) {
+      var on = s.dataset.key === v;
+      s.classList.toggle('picked', on);
+      var cb = s.querySelector('.pick input');
+      if (cb) cb.checked = on;
+    });
+  }
+  paintPick(LSget(PK) || '');
+  vers.forEach(function (s) {
+    var cb = s.querySelector('.pick input');
+    if (!cb) return;
+    cb.addEventListener('change', function () {
+      var val = cb.checked ? s.dataset.key : '';
+      LSset(PK, val); paintPick(val);
+    });
+  });
+
+  /* בניית הדוח לרן */
+  function report() {
+    var out = [], picked = LSget(PK) || '';
+    vers.forEach(function (s) {
+      var name = s.querySelector('.vletter').textContent.trim() + ' ' +
+                 s.querySelector('h2').textContent.trim();
+      var edits = [], key = s.dataset.key;
+      s.querySelectorAll('[data-id]').forEach(function (el) {
+        var now = tx(el), was = el.dataset.orig;
+        if (now !== was) {
+          edits.push('  • ' + (el.classList.contains('t') ? 'כותרת' : 'שורה') + ':' + NL +
+                     '    היה: ' + was + NL + '    לשנות ל: ' + now);
+        }
+      });
+      var ta = s.querySelector('textarea');
+      var note = ta && ta.value.trim();
+      if (!edits.length && !note && key !== picked) return;
+      var head = (key === picked ? '★ ' : '') + name + (key === picked ? '  (הגרסה שאני מעדיפה)' : '');
+      out.push('--- ' + head + ' ---');
+      if (edits.length) { out.push('שינויים בטקסט:'); out.push(edits.join(NL)); }
+      if (note) { out.push('הערות:'); out.push(note); }
+      out.push('');
+    });
+    if (!out.length) return null;
+    var L = link();
+    return 'הערות לקריינות · ' + (document.body.dataset.name || 'פארק הנצח רמת השרון') + NL + NL + out.join(NL).trim() +
+           (L ? NL + NL + 'לראות את כל התיקונים בתוך הדף:' + NL + L : '');
+  }
+
+  /* קישור צפייה (שחר, 1.11.2026: "שנראה את התיקונים של הלקוח בתוך הקובץ שהוא השאיר").
+     הדף סטטי ואין שרת, לכן התיקונים עצמם נארזים לתוך הקישור, אחרי ה-# (החלק הזה
+     לא נשלח לשרת בכלל). פתיחת הקישור = אותו דף, עם התיקונים מסומנים בכתום והנוסח
+     המקורי מתחת לכל שורה. נדחס כדי לא לנפח את קישור הוואטסאפ (ראו הערה למעלה). */
+  function state() {
+    var d = { p: LSget(PK) || '', v: {} }, any = false;
+    vers.forEach(function (s) {
+      var e = {}, n = 0;
+      s.querySelectorAll('[data-id]').forEach(function (el) {
+        var now = tx(el);
+        if (now !== el.dataset.orig) { e[el.dataset.id] = now; n++; }
+      });
+      var ta = s.querySelector('textarea'), note = ta && ta.value.trim();
+      if (n || note) { d.v[s.dataset.key] = { e: e, n: note || '' }; any = true; }
+    });
+    return (any || d.p) ? d : null;
+  }
+  function b64u(b) {
+    var s = '';
+    for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]);
+    return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function unb64u(t) {
+    var s = atob(t.replace(/-/g, '+').replace(/_/g, '/')), b = new Uint8Array(s.length);
+    for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i);
+    return b;
+  }
+  function pipe(bytes, Stream) {
+    return new Response(new Blob([bytes]).stream().pipeThrough(new Stream('deflate-raw')))
+      .arrayBuffer().then(function (a) { return new Uint8Array(a); });
+  }
+  /* הדחיסה אסינכרונית, אבל window.open חייב לרוץ מיד בלחיצה (ספארי חוסם אחרי המתנה) —
+     לכן אורזים מראש אחרי כל שינוי, ואם האריזה עוד לא מוכנה נופלים לגרסה לא דחוסה. */
+  var packed = '', packedFor = '', rt;
+  function repack() {
+    var d = state(), json = d ? JSON.stringify(d) : '';
+    if (!json || !window.CompressionStream) return;
+    pipe(new TextEncoder().encode(json), CompressionStream)
+      .then(function (z) { packed = 'z' + b64u(z); packedFor = json; }).catch(function () {});
+  }
+  /* capture: כפתור ↩ של שורה עוצר את הלחיצה (stopPropagation), ובלי capture השחזור לא נקלט
+     (נתפס בבדיקה על הגיליון האמיתי, 1.11.2026) */
+  ['input', 'change', 'click'].forEach(function (ev) {
+    document.addEventListener(ev, function () { clearTimeout(rt); rt = setTimeout(repack, 250); }, true);
+  });
+  repack();
+  function link() {
+    var d = state();
+    if (!d) return '';
+    var json = JSON.stringify(d);
+    return location.origin + location.pathname + '#c=' +
+           (packedFor === json ? packed : 'u' + b64u(new TextEncoder().encode(json)));
+  }
+
+  function banner(head, sub) {
+    var old = document.querySelector('.rvbar');
+    if (old) old.parentNode.removeChild(old);
+    var b = document.createElement('div');
+    b.className = 'rvbar';
+    b.innerHTML = '<b></b><span></span><button class="btn" type="button">לדף הנקי</button>';
+    b.querySelector('b').textContent = head;
+    b.querySelector('span').textContent = sub || '';
+    b.querySelector('button').addEventListener('click', function () { location.replace(location.pathname); });
+    var w = document.querySelector('.wrap');
+    w.insertBefore(b, w.firstChild);
+    return b;
+  }
+  /* מציג את התיקונים מהקישור. לא נוגע ב-localStorage: אין אירועי input, ההערות לקריאה
+     בלבד והכפתורים מוסתרים — כך העריכות של מי שצופה לא נדרסות ולא מתערבבות. */
+  function review(d, head, when) {
+    document.body.classList.add('review');
+    var shown = 0, miss = 0;
+    d = d || { p: '', v: {} };
+    vers.forEach(function (s) {
+      var got = d.v[s.dataset.key], n = 0;
+      s.querySelectorAll('[data-id]').forEach(function (el) {
+        var h = el.parentNode, w = h.querySelector('.was');
+        el.textContent = el.dataset.orig;
+        h.classList.remove('dirty');
+        h.removeAttribute('title');
+        if (w) h.removeChild(w);
+      });
+      if (got) Object.keys(got.e).forEach(function (id) {
+        var el = s.querySelector('[data-id="' + id + '"]');
+        if (!el) return;
+        el.textContent = got.e[id];
+        var h = el.parentNode;
+        h.classList.add('dirty');
+        if (h.tagName === 'P') {
+          var w = document.createElement('span');
+          w.className = 'was';
+          w.textContent = 'במקור: ' + el.dataset.orig;
+          h.appendChild(w);
+        } else {
+          h.title = 'במקור: ' + el.dataset.orig;
+        }
+        n++;
+      });
+      var ta = s.querySelector('textarea');
+      if (ta) { ta.value = got ? got.n : ''; ta.readOnly = true; ta.placeholder = 'אין הערות לגרסה הזו'; }
+      var c = s.querySelector('.bcount');
+      if (c) c.textContent = n > 1 ? ('✎ ' + n + ' שינויים') : n ? '✎ שינוי אחד' : '';
+      var cb = s.querySelector('.pick input');
+      if (cb) cb.disabled = true;
+      shown += n;
+    });
+    Object.keys(d.v).forEach(function (k) {
+      if (!vers.some(function (s) { return s.dataset.key === k; })) miss++;
+    });
+    paintPick(d.p || '');
+    var fav = vers.filter(function (s) { return s.dataset.key === d.p; })[0];
+    var sub = (shown > 1 ? shown + ' שורות שונו — מסומנות בכתום, והנוסח המקורי מתחת לכל שורה.'
+               : shown ? 'שורה אחת שונתה — מסומנת בכתום, והנוסח המקורי מתחתיה.' : 'לא שונו שורות.') +
+              (fav ? ' הגרסה המועדפת: ' + fav.querySelector('.vletter').textContent.trim() + '.' : '') +
+              (miss ? ' חלק מהתיקונים נכתבו על נוסח קודם של הדף ולא מוצגים כאן — הם מופיעים ברשימה שבהודעה.' : '');
+    var b = banner(head || 'צפייה בתיקונים שנשלחו', (when ? when + ' · ' : '') + sub);
+    window.scrollTo(0, 0);
+    return b;
+  }
+
+  /* סנכרון חי (שחר, 1.11.2026: "שאני אראה את העריכה מהלינק אצלי בלי המעבר בוואטסאפ").
+     הדף נשאר סטטי; כל שינוי של מי שעורך נשלח גם לגיליון גוגל שלנו (Apps Script שכתובתו
+     ב-data-sync), שורה אחת לכל מכשיר. אנחנו צופים דרך <page>#live=<מפתח>. המפתח כתוב רק
+     בסקריפט אצלנו ובקישור הפרטי — לא בדף — כך שמי שקורא את הקוד הציבורי לא רואה עריכות. */
+  var SYNC = document.body.dataset.sync || '';
+  var DOC = document.body.dataset.doc || 'doc';
+  var SK = 'nvosent:' + DOC, pt;
+  var DEV = LSget('nvodev');
+  if (!DEV) { DEV = Math.random().toString(36).slice(2, 10) + Date.now().toString(36); LSset('nvodev', DEV); }
+  function push() {
+    if (!SYNC || document.body.classList.contains('review')) return;
+    var d = state(), json = d ? JSON.stringify(d) : '';
+    if (json === (LSget(SK) || '')) return;
+    var body = JSON.stringify({ doc: DOC, device: DEV, data: json,
+      info: /Mobi|Android|iPhone|iPad/.test(navigator.userAgent) ? 'טלפון' : 'מחשב' });
+    try {
+      /* no-cors + גוף טקסט: בלי בדיקה מקדימה של הדפדפן, והשמירה קורית בצד של גוגל גם
+         כשאין לנו גישה לתשובה. מסמנים "נשלח" רק כשהבקשה יצאה בלי שגיאת רשת. */
+      fetch(SYNC, { method: 'POST', mode: 'no-cors', keepalive: true, body: body })
+        .then(function () { LSset(SK, json); }).catch(function () {});
+    } catch (e) {}
+  }
+  if (SYNC) {
+    ['input', 'change', 'click'].forEach(function (ev) {
+      document.addEventListener(ev, function () { clearTimeout(pt); pt = setTimeout(push, 1500); }, true);
+    });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) push(); });
+    push();
+  }
+
+  function when(iso) {
+    var t = new Date(iso);
+    return isNaN(t) ? '' : 'עודכן ' + t.toLocaleString('he-IL', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+  function live(items, i) {
+    var it = items[i], d;
+    try { d = JSON.parse(it.data); } catch (e) { d = null; }
+    var b = review(d, 'העריכות שנשמרו בדף', when(it.updated));
+    var again = document.createElement('button');
+    again.className = 'btn'; again.type = 'button'; again.textContent = 'רענון';
+    again.addEventListener('click', function () { location.reload(); });
+    b.insertBefore(again, b.lastChild);
+    if (items.length > 1) {
+      var sel = document.createElement('select');
+      sel.className = 'btn';
+      items.forEach(function (x, k) {
+        var o = document.createElement('option');
+        o.value = k;
+        o.textContent = 'מכשיר ' + (k + 1) + (x.info ? ' · ' + x.info : '') + ' · ' + when(x.updated);
+        if (k === i) o.selected = true;
+        sel.appendChild(o);
+      });
+      sel.addEventListener('change', function () { live(items, +sel.value); });
+      b.insertBefore(sel, b.querySelector('.btn'));
+    }
+  }
+  var lv = /^#live=([A-Za-z0-9_-]+)$/.exec(location.hash);
+  if (lv) {
+    try { history.scrollRestoration = 'manual'; } catch (e) {}
+    document.body.classList.add('review');
+    if (!SYNC) {
+      banner('הדף הזה לא מחובר לגיליון', 'אין בו שמירה אוטומטית, ולכן אין עריכות להציג.');
+    } else {
+      banner('טוען את העריכות…', '');
+      fetch(SYNC + '?doc=' + encodeURIComponent(DOC) + '&key=' + lv[1])
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res.ok) { banner('אין גישה', 'המפתח בקישור לא נכון.'); return; }
+          var items = res.items.slice().sort(function (a, b) { return new Date(b.updated) - new Date(a.updated); });
+          if (!items.length) { banner('עוד אין עריכות', 'אף אחד עוד לא ערך את הדף או השאיר בו הערות.'); return; }
+          live(items, 0);
+        })
+        .catch(function () { banner('אי אפשר לטעון את העריכות', 'בדקו את החיבור לאינטרנט ונסו לרענן.'); });
+    }
+  }
+  var hm = /^#c=([uz])([A-Za-z0-9_-]+)$/.exec(location.hash);
+  if (hm) {
+    /* רענון לא מחזיר לאמצע הדף מתחת לבאנר — חייב לקרות לפני טעינת הדף */
+    try { history.scrollRestoration = 'manual'; } catch (e) {}
+    try {
+      var raw = unb64u(hm[2]);
+      (hm[1] === 'z' ? pipe(raw, DecompressionStream) : Promise.resolve(raw))
+        .then(function (b) { review(JSON.parse(new TextDecoder().decode(b))); })
+        .catch(function () { banner('אי אפשר להציג את התיקונים', 'הקישור חתוך או פגום. הרשימה המלאה של התיקונים נמצאת בהודעה עצמה.'); });
+    } catch (e) {
+      banner('אי אפשר להציג את התיקונים', 'הקישור חתוך או פגום. הרשימה המלאה של התיקונים נמצאת בהודעה עצמה.');
+    }
+  }
+
+  var dock = document.querySelector('.dock');
+  var stat = dock.querySelector('.dockstat');
+  function flash(m){ stat.textContent = m; setTimeout(function(){ stat.textContent = base(); }, 2600); }
+  function base(){
+    var n = 0;
+    vers.forEach(function (s) {
+      s.querySelectorAll('[data-id]').forEach(function (el) { if (tx(el) !== el.dataset.orig) n++; });
+      var ta = s.querySelector('textarea'); if (ta && ta.value.trim()) n++;
+    });
+    if (document.body.dataset.sync)
+      return n ? ('נשמרו ' + n + ' הערות ושינויים — הם מגיעים אלינו אוטומטית') : 'אפשר לערוך את הטקסט ולהשאיר הערות — הכול נשמר ומגיע אלינו אוטומטית';
+    return n ? ('נשמרו ' + n + ' הערות ושינויים במכשיר שלך') : 'אפשר לערוך את הטקסט ולהשאיר הערות — הכול נשמר אוטומטית';
+  }
+  stat.textContent = base();
+  document.addEventListener('input', function(){ stat.textContent = base(); });
+
+  dock.querySelector('.send').addEventListener('click', function () {
+    var r = report();
+    if (!r) { flash('עדיין לא נכתבו הערות או שינויים'); return; }
+    window.open('https://wa.me/?text=' + encodeURIComponent(r), '_blank');
+  });
+  dock.querySelector('.copy').addEventListener('click', function () {
+    var r = report();
+    if (!r) { flash('עדיין לא נכתבו הערות או שינויים'); return; }
+    navigator.clipboard.writeText(r).then(function () { flash('הועתק — אפשר להדביק במייל או בוואטסאפ'); });
+  });
+})();
+</script></body></html>
